@@ -2,15 +2,22 @@
 Final project for Cloud-Computing. Microservice architecture using docker machine, compose and swarm.
 
 ## Enviorment variables (SO) and openstack
-`export OS_DOMAIN_NAME=<Domain Name>
-export OS_TENANT_NAME=<Project Name>
-export OS_SSH_USER =<ssh user>`
+`export OS_DOMAIN_NAME=<Domain Name>`
+`export OS_TENANT_NAME=<Project Name>`
+`export OS_SSH_USER =<ssh user>`
 
 `source openstack_cli.rc`
 
 ## Docker
 
-`docker-machine  create --openstack-flavor-name <flavour> --openstack-image-name <image name> --openstack-net-name <net name> --openstack-tenant-name <project> --openstack-floatingip-pool <floating IP pool>  --driver openstack --openstack-ssh-user <user>  <machine name>`
+`docker-machine  create --openstack-flavor-name <flavour>`
+`--openstack-image-name <image name>`
+`--openstack-net-name <net name>`
+`--openstack-tenant-name <project>`
+`--openstack-floatingip-pool <floating IP pool>` 
+`--driver openstack` 
+`--openstack-ssh-user <user>` 
+`<machine name>`
 
 `docker-machine ssh <machine name>`
 `docker swarm init --advertise-addr x.y.z.w`
