@@ -1,0 +1,74 @@
+version: '3.3'
+services:
+   login:
+      image: twcammaster.uv.es/auth_g1
+      links:
+         - mysql
+      ports:
+         - "8080:8080"
+      deploy:
+         replicas: 2
+      configs:
+         - source: la-conf
+           target: /service/application.properties
+      networks:
+         - network_g1
+   mysql:
+      image: mysql:latest
+      ports:
+         - "3306:3306"
+      environment:
+         - "MYSQL_DATABASE=login"
+         - "MYSQL_USER=login"
+         - "MYSQL_PASSWORD=loginpw"
+         - "MYSQL_ALLOW_EMPTY_PASSWORD=no"
+      networks:
+         - network_g1
+   contador:
+      image: twcammaster.uv.es/contadores_g1
+      ports:
+         - "8081:8081"
+      configs:
+         - source: counter-conf
+           target: /service/application.properties
+      networks:
+         - network_g1
+   redis:
+      image: redis
+      ports:
+         - "6379:6379"
+      networks:
+         - network_g1
+   fotos:
+      image: twcammaster.uv.es/fotos_g1
+      ports:
+         - "8082:8082"
+      configs:
+         - source: fotos-conf
+           target: /service/application.properties
+      networks:
+         - network_g1
+   mongo:
+      image: mongo
+      ports:
+         - "27017:27017"
+      networks:
+         - network_g1
+   swift:
+      image: twcammaster.uv.es/swift
+      ports:
+         - "8083:8080"
+      networks:
+         - network_g1
+
+configs:
+    la-conf:
+        file: ./application.properties
+    counter-conf:
+        file: ./application-counter.properties
+    fotos-conf:
+        file: ./application-fotos.properties
+
+networks:
+   network_g1:
+
