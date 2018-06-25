@@ -30,13 +30,12 @@ docker build -t sb-counter .
 Build Container:
 docker run --name countercontainer -p 8081:8080  sb-counter
 
-## sb-photos (Node - NestJS) 8082
-Microservice developed with NestJS (TypeScript) and MongoDB that connects to the MongoDB service and Swift service.
+## sb-photos (Java - Spring Boot) 8082
+Microservice developed with Java and MongoDB that connects to the MongoDB service and Swift service.
 Endpoints: 
 - POST /photo (multipart)
 - GET /photo
 
-PhotoDTO: 
 ## MongoDB
 MongoDB service
 
@@ -50,55 +49,38 @@ Redis service running on port 6379.
 
 ## Swift service (Dockerized) 8083
 Swift service running on port 8083
-`docker run -d -p 8083:8080 -v swift:/srv/node twcammaster.uv.es/swift`
-
-Env variables:
-process.env.SWIFT_URL = http://localhost:8083
-process.env.DB_URL= 'mongodb://localhost/photos';
-Ocata Cli:
-`docker run -it --name openstack-cli --add-host controller:147.156.84.206 --net=swift -v C:\ocata-cli:/tmp/tempdir twcammaster.uv.es/ocata-cli /bin/bash`
-
-## Image uploads
-docker tag 
+`docker run -d -p 8080:8080 -v swift:/srv/node twcammaster.uv.es/swift`
 
 ## Docker machine
-docker-machine --native-ssh create --openstack-username peanvi --openstack-password 20c8bc58 --openstack-tenant-name proyecto4 --openstack-auth-url http://controller:5000/v3 --openstack-flavor-name m1.large --openstack-image-name ubuntu-16-aufs --openstack-net-name red-practica3 --openstack-ssh-user ubuntu --openstack-domain-name Default --openstack-floatingip-pool external-network --engine-opt experimental --engine-opt metrics-addr=0.0.0.0:4999 --driver openstack docker-swarm-manager-g4
 
-docker-machine --debug --native-ssh provision g4
+eval $(docker-machine env <machine with docker-swarm>)
+docker stack deploy --compose-file docker-cloud.yml webapp
+    
+## Requests Examples
 
-docker-machine --debug --native-ssh ssh g4
+### login microservice
 
-]0;ubuntu@g4: ~ubuntu@g4:~$ sudo docker swarm init
-Swarm initialized: current node (0lyi01f7rsfisb0qaucohnd32) is now a manager.
+curl -H "Content-Type: application/json" -d '{"user":"b","password":"b"}' http://x.y.z.w:8080/register
+curl -H "Content-Type: application/login" -d '{"user":"b","password":"b"}' http://x.y.z.w:8080/login
 
-To add a worker to this swarm, run the following command:
+### counters microservice
 
-    docker swarm join --token SWMTKN-1-3kz3wmw5u9y6preb8ykwm7yxdo1aje0xjzxuc3m3371t9xhwf4-50i4luh9nk8kwq4q87x1dnzui 10.2.0.3:2377
+curl --request GET \
+--url http://x.y.z.w:8081/get/oscar-titulo1 \
+--header 'authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvc2NhciIsImlzcyI6IkZvdG9zIiwiZXhwIjoxNTQ3NzgwMjg2fQ.rskC_N8_RDoEl5_L6DlEHFbxVbB1tzaFA5S4LIONdXVvp7mBhVkLZuOEX1DeyQnswZkRGR1esqq0IAmG0Bw3mw'
 
-To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+### fotos microservice
+Método POST
+curl \
+--header 'authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkIiwiaXNzIjoiRm90b3MiLCJleHAiOjE1Mjg4MTQxODl9.bGHF9C_TbD8pT0d7QOmirySQqWlKJkVEKeMALikTIA5eKL49de86F' \
+  -F "title=titulo1" \
+  -F "description=This is an image file" \
+  -F "file=@/aa.png" \
+  http://x.y.z.w:8082/fotos
 
-
-docker stack deploy --compose-file docker-cloud.yml g4
-
-
----------
-
-
-C:\Users\Samuanv>docker-machine env g4
-SET DOCKER_TLS_VERIFY=1
-SET DOCKER_HOST=tcp://147.156.86.12:2376
-SET DOCKER_CERT_PATH=C:\Users\Samuanv\.docker\machine\machines\g4
-SET DOCKER_MACHINE_NAME=g4
-SET COMPOSE_CONVERT_WINDOWS_PATHS=true
-REM Run this command to configure your shell:
-REM     @FOR /f "tokens=*" %i IN ('docker-machine env g4') DO @%i
-
-
-docker service create --name=viz --publish=9000:8080/tcp --constraint=node.role==manager --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock dockersamples/visualizer
+Método GET
+curl \
+--url http://x.y.z.w:8082/fotos \
+--header 'authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvc2NhciIsImlzcyI6IkZvdG9zIiwiZXhwIjoxNTQ3NzgwMjg2fQ.rskC_N8_RDoEl5_L6DlEHFbxVbB1tzaFA5S4LIONdXVvp7mBhVkLZuOEX1DeyQnswZkRGR1esqq0IAmG0Bw3mw'
 
 
-docker service scale g4_counters=2
-
-
-
-https://github.com/bvis/docker-prometheus-swarm
