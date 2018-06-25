@@ -71,12 +71,12 @@ curl -H "Content-Type: application/login" -d '{"user":"b","password":"b"}' http:
 
 curl --request GET \
 --url http://x.y.z.w:8081/get/oscar-titulo1 \
---header 'authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvc2NhciIsImlzcyI6IkZvdG9zIiwiZXhwIjoxNTQ3NzgwMjg2fQ.rskC_N8_RDoEl5_L6DlEHFbxVbB1tzaFA5S4LIONdXVvp7mBhVkLZuOEX1DeyQnswZkRGR1esqq0IAmG0Bw3mw'
+--header 'authorization: Bearer <JWT>'
 
 ### fotos microservice
 Método POST
 curl \
---header 'authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkIiwiaXNzIjoiRm90b3MiLCJleHAiOjE1Mjg4MTQxODl9.bGHF9C_TbD8pT0d7QOmirySQqWlKJkVEKeMALikTIA5eKL49de86F' \
+--header 'authorization: Bearer <JWT>' \
   -F "title=titulo1" \
   -F "description=This is an image file" \
   -F "file=@/aa.png" \
@@ -85,6 +85,6 @@ curl \
 Método GET
 curl \
 --url http://x.y.z.w:8082/fotos \
---header 'authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvc2NhciIsImlzcyI6IkZvdG9zIiwiZXhwIjoxNTQ3NzgwMjg2fQ.rskC_N8_RDoEl5_L6DlEHFbxVbB1tzaFA5S4LIONdXVvp7mBhVkLZuOEX1DeyQnswZkRGR1esqq0IAmG0Bw3mw'
+--header 'authorization: Bearer <JWT>'
 
 
