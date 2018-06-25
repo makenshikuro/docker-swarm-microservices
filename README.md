@@ -86,13 +86,13 @@ MySQL service running on port 3306.
 Redis service running on port 6379.
 `docker run --name redis -p 6379:6379 -d redis`
 
-## Swift service (Dockerized) 8080
-Swift service running on port 8080
+## Swift service (Dockerized) 8083
+Swift service running on port 8083
 `docker run -d -p 8083:8080 --name swift --network p3-net twcammaster.uv.es/swift`
 
 ## Docker machine
 
-`eval $(docker-machine env <machine with docker-swarm>)`
+`eval $(docker-machine env <machine name>)`
 `docker stack deploy --compose-file docker-cloud.yml webapp`
     
 ## Requests Examples
