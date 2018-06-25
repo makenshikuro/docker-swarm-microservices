@@ -1,7 +1,7 @@
 # docker-swarm-microservices
 Final project for Cloud-Computing. Microservice architecture using docker machine, compose and swarm.
 
-## sb-login (Java - Spring Boot) 8080
+## login (Java - Spring Boot) 8080
 Spring Boot microservice to authenticate users.
 Endpoints: 
 - POST /login
@@ -15,26 +15,30 @@ User = {
 Includes the response from /login endpoint in 'Authorization' header with this format: 'Bearer :tokenGivenFromLogin';
 It connects to the MySQL service.
 Build imager:
-docker build -t sb-login .
+docker build -t login .
 Run Container:
-docker run --name sb-logincontainer -p 8080:8080  -e SECRET_TOKEN=secretlogin sb-login
+docker run --name logincontainer -p 8080:8080  -e SECRET_TOKEN=secretlogin login
 
-## sb-counter (Java - Spring Boot) 8081
+## counter (Java - Spring Boot) 8081
 Spring Boot microservice to register likes in pictures.
-Endpoints (see in sb-counter/api-swagger.yaml):
 - POST /increment/{var}
 - POST /decrement/{var}
 It connects to the Redis service.
 Build imager:
-docker build -t sb-counter .
+docker build -t counter .
 Build Container:
-docker run --name countercontainer -p 8081:8080  sb-counter
+docker run --name countercontainer -p 8081:8081  counter
 
-## sb-photos (Java - Spring Boot) 8082
+## fotos (Java - Spring Boot) 8082
 Microservice developed with Java and MongoDB that connects to the MongoDB service and Swift service.
 Endpoints: 
 - POST /photo (multipart)
 - GET /photo
+
+Build imager:
+docker build -t fotos .
+Build Container:
+docker run --name fotos -p 8082:8082  fotos
 
 ## MongoDB
 MongoDB service
