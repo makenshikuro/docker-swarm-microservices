@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: counters
+Implementation-Version: v1
+Built-By: Ubustus
+Implementation-Vendor-Id: edu.uv.twcam.counters
+Build-Jdk: 1.8.0_171
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/counters
+Created-By: Maven Integration for Eclipse
+
