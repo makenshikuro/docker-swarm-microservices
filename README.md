@@ -12,19 +12,19 @@ export OS_SSH_USER =<ssh user>
 
 ## Docker
 ```
-`docker-machine  create --openstack-flavor-name <flavour>`
-`--openstack-image-name <image name>`
-`--openstack-net-name <net name>`
-`--openstack-tenant-name <project>`
-`--openstack-floatingip-pool <floating IP pool>` 
-`--driver openstack` 
-`--openstack-ssh-user <user>` 
-`<machine name>`
+docker-machine  create --openstack-flavor-name <flavour>
+--openstack-image-name <image name>
+--openstack-net-name <net name>
+--openstack-tenant-name <project>
+--openstack-floatingip-pool <floating IP pool>
+--driver openstack 
+--openstack-ssh-user <user>
+<machine name>
 ```
 ```
-`docker-machine ssh <machine name>`
-`docker swarm init --advertise-addr x.y.z.w`
-`sudo usermod -aG docker <user>`
+docker-machine ssh <machine name>
+docker swarm init --advertise-addr x.y.z.w
+sudo usermod -aG docker <user>
 ```
 
 `docker network create --subnet 10.200.0.0/24 p3-net`
